@@ -7,30 +7,61 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Charm:wght@400;700&display=swap');
         
         * {
             font-family: 'Kanit', sans-serif;
         }
         
+        .font-charm {
+            font-family: 'Charm', cursive;
+        }
+        
+        /* Vintage overlay effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255, 255, 255, 0.03) 2px,
+                    rgba(255, 255, 255, 0.03) 4px
+                );
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        /* Paper texture background */
+        .paper-texture {
+            background-image: 
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-opacity='0.03'%3E%3Cpolygon fill='%23000' points='50 0 60 40 100 50 60 60 50 100 40 60 0 50 40 40'/%3E%3C/g%3E%3C/svg%3E"),
+                linear-gradient(to bottom, #faf8f3, #f5f0e6);
+        }
+        
+        .dark .paper-texture {
+            background-image: 
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-opacity='0.03'%3E%3Cpolygon fill='%23fff' points='50 0 60 40 100 50 60 60 50 100 40 60 0 50 40 40'/%3E%3C/g%3E%3C/svg%3E"),
+                linear-gradient(to bottom, #1a1a1a, #2d2d2d);
+        }
+        
         /* Custom animations */
         @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
         }
         
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        @keyframes sway {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
         }
         
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.8; }
-        }
-        
-        @keyframes slideIn {
+        @keyframes fadeInUp {
             from { 
                 opacity: 0;
                 transform: translateY(30px);
@@ -41,185 +72,307 @@
             }
         }
         
+        @keyframes parallax-slow {
+            from { transform: translateY(0); }
+            to { transform: translateY(-50px); }
+        }
+        
+        @keyframes parallax-medium {
+            from { transform: translateY(0); }
+            to { transform: translateY(-100px); }
+        }
+        
+        @keyframes parallax-fast {
+            from { transform: translateY(0); }
+            to { transform: translateY(-150px); }
+        }
+        
         .animate-float {
-            animation: float 3s ease-in-out infinite;
+            animation: float 4s ease-in-out infinite;
         }
         
-        .animate-gradient {
-            background-size: 200% 200%;
-            animation: gradient 4s ease infinite;
+        .animate-sway {
+            animation: sway 3s ease-in-out infinite;
         }
         
-        .animate-pulse-slow {
-            animation: pulse 2s ease-in-out infinite;
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
         }
         
-        .animate-slide-in {
-            animation: slideIn 0.6s ease-out forwards;
+        /* Vintage card style */
+        .vintage-card {
+            background: #fefdfb;
+            border: 2px solid #d4c4b0;
+            box-shadow: 
+                0 0 0 1px #e8dfd6,
+                3px 3px 0 0 #d4c4b0,
+                3px 3px 0 1px #e8dfd6,
+                6px 6px 0 0 #c7b299,
+                6px 6px 0 1px #e8dfd6,
+                9px 9px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
         }
         
-        /* Glassmorphism effect */
-        .glass {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        .dark .vintage-card {
+            background: #2a2a2a;
+            border: 2px solid #4a4a4a;
+            box-shadow: 
+                0 0 0 1px #3a3a3a,
+                3px 3px 0 0 #4a4a4a,
+                3px 3px 0 1px #3a3a3a,
+                6px 6px 0 0 #5a5a5a,
+                6px 6px 0 1px #3a3a3a,
+                9px 9px 15px rgba(0, 0, 0, 0.5);
         }
         
-        .dark .glass {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        /* Decorative elements */
+        .decoration {
+            position: absolute;
+            pointer-events: none;
+            z-index: 10;
         }
         
-        /* Custom scrollbar */
+        .leaf-1 {
+            width: 80px;
+            height: 80px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 10 Q30 40 50 90 Q70 40 50 10' fill='%2366a666' opacity='0.7'/%3E%3C/svg%3E") no-repeat center/contain;
+        }
+        
+        .leaf-2 {
+            width: 60px;
+            height: 60px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 10 Q30 40 50 90 Q70 40 50 10' fill='%238db68d' opacity='0.6'/%3E%3C/svg%3E") no-repeat center/contain;
+        }
+        
+        .flower {
+            width: 70px;
+            height: 70px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='30' r='15' fill='%23ff6b6b' opacity='0.7'/%3E%3Ccircle cx='30' cy='50' r='15' fill='%23ff6b6b' opacity='0.7'/%3E%3Ccircle cx='70' cy='50' r='15' fill='%23ff6b6b' opacity='0.7'/%3E%3Ccircle cx='50' cy='70' r='15' fill='%23ff6b6b' opacity='0.7'/%3E%3Ccircle cx='50' cy='50' r='20' fill='%23ffe66d'/%3E%3C/svg%3E") no-repeat center/contain;
+        }
+        
+        /* Vintage button style */
+        .vintage-button {
+            background: linear-gradient(135deg, #8b7355, #a0866a);
+            color: white;
+            border: 2px solid #6b5a46;
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                0 3px 0 #6b5a46,
+                0 4px 6px rgba(0, 0, 0, 0.3);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            position: relative;
+            transition: all 0.1s ease;
+        }
+        
+        .vintage-button:hover {
+            transform: translateY(1px);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                0 2px 0 #6b5a46,
+                0 3px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .vintage-button:active {
+            transform: translateY(3px);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                0 0 0 #6b5a46,
+                0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Parallax layers */
+        .parallax-container {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .parallax-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Custom scrollbar vintage style */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 12px;
         }
         
         ::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: #f5f0e6;
+            border: 1px solid #d4c4b0;
         }
         
         .dark ::-webkit-scrollbar-track {
-            background: #1f2937;
+            background: #2a2a2a;
+            border: 1px solid #4a4a4a;
         }
         
         ::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 4px;
+            background: #a0866a;
+            border-radius: 6px;
+            border: 1px solid #8b7355;
         }
         
         ::-webkit-scrollbar-thumb:hover {
-            background: #555;
+            background: #8b7355;
         }
         
-        /* Loading animation */
-        .loader {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #3498db;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
+        /* Polaroid style for images */
+        .polaroid {
+            background: white;
+            padding: 10px 10px 40px 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transform: rotate(-2deg);
+            transition: transform 0.3s ease;
         }
         
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .polaroid:hover {
+            transform: rotate(0deg) scale(1.05);
+        }
+        
+        .dark .polaroid {
+            background: #3a3a3a;
+        }
+        
+        /* Stamp effect */
+        .stamp {
+            position: relative;
+            display: inline-block;
+            padding: 10px 20px;
+            background: #ff6b6b;
+            color: white;
+            font-weight: bold;
+            transform: rotate(-15deg);
+            border: 3px dashed white;
+            box-shadow: 0 0 0 3px #ff6b6b;
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-900 dark:to-gray-800 min-h-screen transition-all duration-500">
+<body class="paper-texture min-h-screen transition-all duration-500">
     
-    <!-- Loading Screen -->
-    <div id="loader" class="fixed inset-0 bg-white dark:bg-gray-900 flex items-center justify-center z-50">
-        <div class="loader"></div>
-    </div>
+    <!-- Decorative elements -->
+    <div class="decoration leaf-1 animate-sway" style="top: 10%; left: 5%;"></div>
+    <div class="decoration leaf-2 animate-float" style="top: 20%; right: 10%;"></div>
+    <div class="decoration flower animate-sway" style="bottom: 20%; left: 8%;"></div>
+    <div class="decoration leaf-1 animate-float" style="bottom: 10%; right: 5%;"></div>
     
     <!-- Dark Mode Toggle -->
-    <button id="darkModeToggle" class="fixed top-4 right-4 z-40 p-3 rounded-full glass shadow-lg hover:scale-110 transition-transform duration-300">
+    <button id="darkModeToggle" class="fixed top-4 right-4 z-40 p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:scale-110 transition-transform duration-300 border-2 border-gray-300 dark:border-gray-600">
         <i class="fas fa-moon text-gray-800 dark:text-yellow-300 text-xl"></i>
     </button>
     
     <!-- Main Container -->
-    <div class="container mx-auto px-4 py-8 max-w-6xl">
+    <div class="container mx-auto px-4 py-8 max-w-6xl relative z-20">
         
-        <!-- Header Section -->
-        <header class="text-center mb-12 animate-slide-in">
-            <div class="inline-block">
-                <h1 class="text-4xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 animate-gradient mb-4">
+        <!-- Header Section with Vintage Style -->
+        <header class="text-center mb-12 animate-fade-in-up">
+            <div class="inline-block relative">
+                <div class="stamp absolute -top-8 -right-8 text-sm z-10">NEW!</div>
+                <h1 class="text-5xl md:text-7xl font-bold text-amber-800 dark:text-amber-200 font-charm mb-2 drop-shadow-lg">
                     กิจกรรมประจำเดือน
                 </h1>
-                <div class="flex items-center justify-center space-x-2 text-2xl md:text-3xl text-gray-700 dark:text-gray-300">
-                    <i class="fas fa-calendar-alt text-purple-500 animate-pulse-slow"></i>
+                <div class="flex items-center justify-center space-x-3 text-2xl md:text-3xl text-amber-700 dark:text-amber-300">
+                    <span class="text-4xl">✿</span>
                     <span class="font-medium">สิงหาคม 2568</span>
+                    <span class="text-4xl">✿</span>
                 </div>
             </div>
         </header>
         
-        <!-- Main Content Card -->
-        <div class="glass rounded-3xl p-6 md:p-10 shadow-2xl mb-8 animate-slide-in" style="animation-delay: 0.2s;">
+        <!-- Main Content Card with Vintage Style -->
+        <div class="vintage-card rounded-2xl p-6 md:p-10 mb-8 animate-fade-in-up relative" style="animation-delay: 0.2s;">
             
-            <!-- Image Section -->
-            <div class="mb-8 overflow-hidden rounded-2xl shadow-lg">
-                <img src="https://lh5.googleusercontent.com/d/1WioI5iu7ifhvoUX7N3ZSTXGzRFzSDjke" 
-                     alt="กิจกรรมศูนย์ฯ" 
-                     class="w-full h-auto object-cover hover:scale-105 transition-transform duration-500"
-                     loading="lazy">
+            <!-- Corner decorations -->
+            <div class="absolute top-4 left-4 text-3xl text-amber-600 opacity-50">❦</div>
+            <div class="absolute top-4 right-4 text-3xl text-amber-600 opacity-50">❦</div>
+            <div class="absolute bottom-4 left-4 text-3xl text-amber-600 opacity-50 rotate-180">❦</div>
+            <div class="absolute bottom-4 right-4 text-3xl text-amber-600 opacity-50 rotate-180">❦</div>
+            
+            <!-- Image Section with Polaroid Effect -->
+            <div class="mb-10 flex justify-center">
+                <div class="polaroid max-w-3xl">
+                    <img src="https://lh5.googleusercontent.com/d/1WioI5iu7ifhvoUX7N3ZSTXGzRFzSDjke" 
+                         alt="กิจกรรมศูนย์ฯ" 
+                         class="w-full h-auto object-cover"
+                         loading="lazy">
+                    <p class="text-center mt-4 font-charm text-gray-600 dark:text-gray-400">Summer Activities 2025 ☀️</p>
+                </div>
             </div>
             
             <!-- Welcome Message -->
-            <div class="text-center mb-10">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4 animate-float">
-                    🎉 มาร่วมสนุกกับเรา! 🎉
-                </h2>
-                <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
-                    ศูนย์ฯ ขอเชิญชวนทุกท่านมาร่วมกิจกรรมสุดพิเศษ
-                    <br class="hidden md:block">
-                    ในเดือนสิงหาคม 2568 นี้
-                </p>
+            <div class="text-center mb-10 relative">
+                <div class="inline-block bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-gray-800 dark:to-gray-700 p-6 rounded-2xl border-2 border-dashed border-amber-300 dark:border-amber-600">
+                    <h2 class="text-3xl md:text-4xl font-bold text-amber-800 dark:text-amber-200 mb-4 font-charm">
+                        🌻 มาร่วมสนุกกับเรา! 🌻
+                    </h2>
+                    <p class="text-lg md:text-xl text-amber-700 dark:text-amber-300 leading-relaxed">
+                        ศูนย์เยาวชนกรุงเทพมหานคร (ไทย - ญี่ปุ่น)
+                        <br class="hidden md:block">
+                        ขอเชิญชวนทุกท่านมาร่วมกิจกรรมสุดพิเศษ
+                        <br class="hidden md:block">
+                        ในเดือนสิงหาคม 2568 นี้
+                    </p>
+                </div>
             </div>
             
-            <!-- Activities Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+            <!-- Activities Grid with Vintage Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
                 <!-- Activity Card 1 -->
-                <div class="activity-card bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white transform hover:scale-105 transition-all duration-300 cursor-pointer">
-                    <i class="fas fa-users text-4xl mb-4"></i>
-                    <h3 class="text-xl font-semibold mb-2">กิจกรรมกลุ่ม</h3>
-                    <p class="text-blue-100">สร้างความสามัคคีและมิตรภาพ</p>
+                <div class="bg-gradient-to-br from-green-100 to-green-200 dark:from-green-800 dark:to-green-900 rounded-xl p-6 border-2 border-green-300 dark:border-green-600 transform hover:scale-105 transition-all duration-300 cursor-pointer relative overflow-hidden">
+                    <div class="absolute -top-2 -right-2 text-6xl text-green-300 dark:text-green-700 opacity-30">🌿</div>
+                    <i class="fas fa-users text-4xl mb-4 text-green-700 dark:text-green-300"></i>
+                    <h3 class="text-xl font-semibold mb-2 text-green-800 dark:text-green-200">กิจกรรมกลุ่ม</h3>
+                    <p class="text-green-700 dark:text-green-300">สร้างความสามัคคีและมิตรภาพ</p>
                 </div>
                 
                 <!-- Activity Card 2 -->
-                <div class="activity-card bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl p-6 text-white transform hover:scale-105 transition-all duration-300 cursor-pointer">
-                    <i class="fas fa-book text-4xl mb-4"></i>
-                    <h3 class="text-xl font-semibold mb-2">การเรียนรู้</h3>
-                    <p class="text-purple-100">พัฒนาทักษะและความรู้ใหม่ๆ</p>
+                <div class="bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900 rounded-xl p-6 border-2 border-blue-300 dark:border-blue-600 transform hover:scale-105 transition-all duration-300 cursor-pointer relative overflow-hidden">
+                    <div class="absolute -top-2 -right-2 text-6xl text-blue-300 dark:text-blue-700 opacity-30">📚</div>
+                    <i class="fas fa-book text-4xl mb-4 text-blue-700 dark:text-blue-300"></i>
+                    <h3 class="text-xl font-semibold mb-2 text-blue-800 dark:text-blue-200">การเรียนรู้</h3>
+                    <p class="text-blue-700 dark:text-blue-300">พัฒนาทักษะและความรู้ใหม่ๆ</p>
                 </div>
                 
                 <!-- Activity Card 3 -->
-                <div class="activity-card bg-gradient-to-br from-pink-500 to-pink-600 rounded-2xl p-6 text-white transform hover:scale-105 transition-all duration-300 cursor-pointer">
-                    <i class="fas fa-heart text-4xl mb-4"></i>
-                    <h3 class="text-xl font-semibold mb-2">จิตอาสา</h3>
-                    <p class="text-pink-100">ร่วมทำความดีเพื่อสังคม</p>
+                <div class="bg-gradient-to-br from-pink-100 to-pink-200 dark:from-pink-800 dark:to-pink-900 rounded-xl p-6 border-2 border-pink-300 dark:border-pink-600 transform hover:scale-105 transition-all duration-300 cursor-pointer relative overflow-hidden">
+                    <div class="absolute -top-2 -right-2 text-6xl text-pink-300 dark:text-pink-700 opacity-30">💝</div>
+                    <i class="fas fa-heart text-4xl mb-4 text-pink-700 dark:text-pink-300"></i>
+                    <h3 class="text-xl font-semibold mb-2 text-pink-800 dark:text-pink-200">จิตอาสา</h3>
+                    <p class="text-pink-700 dark:text-pink-300">ร่วมทำความดีเพื่อสังคม</p>
                 </div>
             </div>
             
             <!-- CTA Section -->
-            <div class="text-center space-y-4">
-                <button class="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-lg">
-                    <i class="fas fa-rocket mr-2"></i>
-                    ลงทะเบียนเข้าร่วม
+            <div class="text-center space-y-6">
+                <button class="vintage-button px-10 py-4 rounded-full text-lg font-semibold inline-flex items-center space-x-2">
+                    <i class="fas fa-hand-point-right"></i>
+                    <span>ลงทะเบียนเข้าร่วมกิจกรรม</span>
                 </button>
                 
-                <div class="flex flex-wrap justify-center gap-4 mt-6">
-                    <a href="#" class="inline-flex items-center px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors duration-300">
-                        <i class="fab fa-facebook-f mr-2"></i>
-                        Facebook
-                    </a>
-                    <a href="#" class="inline-flex items-center px-6 py-3 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors duration-300">
-                        <i class="fab fa-line mr-2"></i>
-                        LINE
-                    </a>
-                    <a href="#" class="inline-flex items-center px-6 py-3 bg-gray-700 text-white rounded-full hover:bg-gray-800 transition-colors duration-300">
-                        <i class="fas fa-phone mr-2"></i>
-                        ติดต่อ
+                <div class="mt-8">
+                    <p class="text-amber-700 dark:text-amber-300 mb-4 font-medium">ติดตามข่าวสารเพิ่มเติม</p>
+                    <a href="https://www.facebook.com/photo?fbid=1187348180103044&set=a.468244395346763" 
+                       target="_blank"
+                       class="inline-flex items-center px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        <i class="fab fa-facebook-f mr-2 text-xl"></i>
+                        <span class="font-medium">Facebook ศูนย์เยาวชนฯ</span>
                     </a>
                 </div>
             </div>
         </div>
         
         <!-- Footer -->
-        <footer class="text-center text-gray-600 dark:text-gray-400 mt-12">
-            <p class="mb-2">© 2568 ศูนย์ฯ - สงวนลิขสิทธิ์</p>
-            <p class="text-sm">พัฒนาด้วย ❤️ สำหรับชุมชนของเรา</p>
+        <footer class="text-center text-amber-700 dark:text-amber-300 mt-12 pb-8">
+            <div class="inline-block bg-white dark:bg-gray-800 bg-opacity-50 dark:bg-opacity-50 px-6 py-3 rounded-lg">
+                <p class="mb-2 text-sm">© 2568 ศูนย์เยาวชนกรุงเทพมหานคร(ไทย - ญี่ปุ่น)</p>
+                <p class="text-xs">สำนักวัฒนธรรม กีฬา และการท่องเที่ยว</p>
+            </div>
         </footer>
     </div>
     
-    <!-- Floating Action Button -->
-    <div class="fixed bottom-6 right-6 z-30">
-        <button id="scrollTop" class="p-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 opacity-0">
-            <i class="fas fa-arrow-up"></i>
-        </button>
-    </div>
+    <!-- Floating decorative elements -->
+    <div class="fixed bottom-20 right-10 text-6xl opacity-20 animate-float pointer-events-none">🍃</div>
+    <div class="fixed top-1/2 left-10 text-5xl opacity-20 animate-sway pointer-events-none">🌸</div>
     
     <script>
         // Dark mode toggle
@@ -248,60 +401,75 @@
             }
         });
         
-        // Scroll to top button
-        const scrollTopBtn = document.getElementById('scrollTop');
-        
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                scrollTopBtn.style.opacity = '1';
-            } else {
-                scrollTopBtn.style.opacity = '0';
-            }
-        });
-        
-        scrollTopBtn.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-        
-        // Remove loader after page loads
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loader').style.display = 'none';
-            }, 500);
-        });
-        
-        // Add stagger animation to activity cards
-        const activityCards = document.querySelectorAll('.activity-card');
-        activityCards.forEach((card, index) => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            setTimeout(() => {
-                card.style.transition = 'all 0.6s ease-out';
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
-            }, 400 + (index * 100));
-        });
-        
-        // Interactive hover effects
-        const cards = document.querySelectorAll('.activity-card');
-        cards.forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'scale(1.05) rotate(-2deg)';
+        // Parallax effect on scroll
+        let ticking = false;
+        function updateParallax() {
+            const scrolled = window.pageYOffset;
+            const decorations = document.querySelectorAll('.decoration');
+            
+            decorations.forEach((el, index) => {
+                const speed = 0.5 + (index * 0.1);
+                el.style.transform = `translateY(${scrolled * speed}px)`;
             });
             
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'scale(1) rotate(0deg)';
+            ticking = false;
+        }
+        
+        function requestTick() {
+            if (!ticking) {
+                window.requestAnimationFrame(updateParallax);
+                ticking = true;
+            }
+        }
+        
+        window.addEventListener('scroll', requestTick);
+        
+        // Add vintage typing effect to header
+        const headerText = document.querySelector('h1');
+        if (headerText) {
+            const text = headerText.textContent;
+            headerText.textContent = '';
+            let i = 0;
+            
+            function typeWriter() {
+                if (i < text.length) {
+                    headerText.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 100);
+                }
+            }
+            
+            setTimeout(typeWriter, 500);
+        }
+        
+        // Random floating animation for decorative elements
+        const floatingElements = document.querySelectorAll('.decoration');
+        floatingElements.forEach((el, index) => {
+            el.style.animationDelay = `${index * 0.5}s`;
+            el.style.animationDuration = `${3 + Math.random() * 2}s`;
+        });
+        
+        // Activity cards entrance animation
+        const activityCards = document.querySelectorAll('.grid > div');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '0';
+                        entry.target.style.transform = 'translateY(20px) rotate(-5deg)';
+                        setTimeout(() => {
+                            entry.target.style.transition = 'all 0.6s ease-out';
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0) rotate(0deg)';
+                        }, 100);
+                    }, index * 150);
+                    observer.unobserve(entry.target);
+                }
             });
         });
         
-        // Parallax effect on scroll
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const parallax = document.querySelector('header');
-            parallax.style.transform = `translateY(${scrolled * 0.3}px)`;
+        activityCards.forEach(card => {
+            observer.observe(card);
         });
     </script>
 </body>
