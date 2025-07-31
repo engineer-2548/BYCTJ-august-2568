@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>กิจกรรมศูนย์ฯ เดือนสิงหาคม 2568</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Kanit', sans-serif;
+        }
+        
+        /* Custom animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+        
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .animate-gradient {
+            background-size: 200% 200%;
+            animation: gradient 4s ease infinite;
+        }
+        
+        .animate-pulse-slow {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .animate-slide-in {
+            animation: slideIn 0.6s ease-out forwards;
+        }
+        
+        /* Glassmorphism effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark .glass {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        .dark ::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        
+        /* Loading animation */
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-900 dark:to-gray-800 min-h-screen transition-all duration-500">
+    
+    <!-- Loading Screen -->
+    <div id="loader" class="fixed inset-0 bg-white dark:bg-gray-900 flex items-center justify-center z-50">
+        <div class="loader"></div>
+    </div>
+    
+    <!-- Dark Mode Toggle -->
+    <button id="darkModeToggle" class="fixed top-4 right-4 z-40 p-3 rounded-full glass shadow-lg hover:scale-110 transition-transform duration-300">
+        <i class="fas fa-moon text-gray-800 dark:text-yellow-300 text-xl"></i>
+    </button>
+    
+    <!-- Main Container -->
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        
+        <!-- Header Section -->
+        <header class="text-center mb-12 animate-slide-in">
+            <div class="inline-block">
+                <h1 class="text-4xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 animate-gradient mb-4">
+                    กิจกรรมประจำเดือน
+                </h1>
+                <div class="flex items-center justify-center space-x-2 text-2xl md:text-3xl text-gray-700 dark:text-gray-300">
+                    <i class="fas fa-calendar-alt text-purple-500 animate-pulse-slow"></i>
+                    <span class="font-medium">สิงหาคม 2568</span>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Main Content Card -->
+        <div class="glass rounded-3xl p-6 md:p-10 shadow-2xl mb-8 animate-slide-in" style="animation-delay: 0.2s;">
+            
+            <!-- Image Section -->
+            <div class="mb-8 overflow-hidden rounded-2xl shadow-lg">
+                <img src="https://lh5.googleusercontent.com/d/1WioI5iu7ifhvoUX7N3ZSTXGzRFzSDjke" 
+                     alt="กิจกรรมศูนย์ฯ" 
+                     class="w-full h-auto object-cover hover:scale-105 transition-transform duration-500"
+                     loading="lazy">
+            </div>
+            
+            <!-- Welcome Message -->
+            <div class="text-center mb-10">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4 animate-float">
+                    🎉 มาร่วมสนุกกับเรา! 🎉
+                </h2>
+                <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
+                    ศูนย์ฯ ขอเชิญชวนทุกท่านมาร่วมกิจกรรมสุดพิเศษ
+                    <br class="hidden md:block">
+                    ในเดือนสิงหาคม 2568 นี้
+                </p>
+            </div>
+            
+            <!-- Activities Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+                <!-- Activity Card 1 -->
+                <div class="activity-card bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white transform hover:scale-105 transition-all duration-300 cursor-pointer">
+                    <i class="fas fa-users text-4xl mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">กิจกรรมกลุ่ม</h3>
+                    <p class="text-blue-100">สร้างความสามัคคีและมิตรภาพ</p>
+                </div>
+                
+                <!-- Activity Card 2 -->
+                <div class="activity-card bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl p-6 text-white transform hover:scale-105 transition-all duration-300 cursor-pointer">
+                    <i class="fas fa-book text-4xl mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">การเรียนรู้</h3>
+                    <p class="text-purple-100">พัฒนาทักษะและความรู้ใหม่ๆ</p>
+                </div>
+                
+                <!-- Activity Card 3 -->
+                <div class="activity-card bg-gradient-to-br from-pink-500 to-pink-600 rounded-2xl p-6 text-white transform hover:scale-105 transition-all duration-300 cursor-pointer">
+                    <i class="fas fa-heart text-4xl mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">จิตอาสา</h3>
+                    <p class="text-pink-100">ร่วมทำความดีเพื่อสังคม</p>
+                </div>
+            </div>
+            
+            <!-- CTA Section -->
+            <div class="text-center space-y-4">
+                <button class="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-lg">
+                    <i class="fas fa-rocket mr-2"></i>
+                    ลงทะเบียนเข้าร่วม
+                </button>
+                
+                <div class="flex flex-wrap justify-center gap-4 mt-6">
+                    <a href="#" class="inline-flex items-center px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors duration-300">
+                        <i class="fab fa-facebook-f mr-2"></i>
+                        Facebook
+                    </a>
+                    <a href="#" class="inline-flex items-center px-6 py-3 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors duration-300">
+                        <i class="fab fa-line mr-2"></i>
+                        LINE
+                    </a>
+                    <a href="#" class="inline-flex items-center px-6 py-3 bg-gray-700 text-white rounded-full hover:bg-gray-800 transition-colors duration-300">
+                        <i class="fas fa-phone mr-2"></i>
+                        ติดต่อ
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="text-center text-gray-600 dark:text-gray-400 mt-12">
+            <p class="mb-2">© 2568 ศูนย์ฯ - สงวนลิขสิทธิ์</p>
+            <p class="text-sm">พัฒนาด้วย ❤️ สำหรับชุมชนของเรา</p>
+        </footer>
+    </div>
+    
+    <!-- Floating Action Button -->
+    <div class="fixed bottom-6 right-6 z-30">
+        <button id="scrollTop" class="p-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 opacity-0">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+    
+    <script>
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const html = document.documentElement;
+        const darkModeIcon = darkModeToggle.querySelector('i');
+        
+        // Check for saved dark mode preference
+        if (localStorage.getItem('darkMode') === 'true') {
+            html.classList.add('dark');
+            darkModeIcon.classList.remove('fa-moon');
+            darkModeIcon.classList.add('fa-sun');
+        }
+        
+        darkModeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            const isDark = html.classList.contains('dark');
+            localStorage.setItem('darkMode', isDark);
+            
+            if (isDark) {
+                darkModeIcon.classList.remove('fa-moon');
+                darkModeIcon.classList.add('fa-sun');
+            } else {
+                darkModeIcon.classList.remove('fa-sun');
+                darkModeIcon.classList.add('fa-moon');
+            }
+        });
+        
+        // Scroll to top button
+        const scrollTopBtn = document.getElementById('scrollTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.style.opacity = '1';
+            } else {
+                scrollTopBtn.style.opacity = '0';
+            }
+        });
+        
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Remove loader after page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').style.display = 'none';
+            }, 500);
+        });
+        
+        // Add stagger animation to activity cards
+        const activityCards = document.querySelectorAll('.activity-card');
+        activityCards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                card.style.transition = 'all 0.6s ease-out';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 400 + (index * 100));
+        });
+        
+        // Interactive hover effects
+        const cards = document.querySelectorAll('.activity-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.05) rotate(-2deg)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1) rotate(0deg)';
+            });
+        });
+        
+        // Parallax effect on scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('header');
+            parallax.style.transform = `translateY(${scrolled * 0.3}px)`;
+        });
+    </script>
+</body>
+</html>
