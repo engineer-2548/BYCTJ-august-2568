@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Charm:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Charm:wght@400;700&family=Sarabun:wght@300;400;600&display=swap');
         
         * {
             font-family: 'Kanit', sans-serif;
@@ -17,7 +17,11 @@
             font-family: 'Charm', cursive;
         }
         
-        /* Vintage overlay effect */
+        .font-sarabun {
+            font-family: 'Sarabun', sans-serif;
+        }
+        
+        /* Vintage paper texture overlay */
         body::before {
             content: '';
             position: fixed;
@@ -25,354 +29,468 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
+            background: 
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E"),
                 repeating-linear-gradient(
                     0deg,
                     transparent,
                     transparent 2px,
-                    rgba(255, 255, 255, 0.03) 2px,
-                    rgba(255, 255, 255, 0.03) 4px
+                    rgba(139, 69, 19, 0.03) 2px,
+                    rgba(139, 69, 19, 0.03) 4px
                 );
             pointer-events: none;
             z-index: 1;
+            mix-blend-mode: multiply;
         }
         
-        /* Paper texture background */
-        .paper-texture {
-            background-image: 
-                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-opacity='0.03'%3E%3Cpolygon fill='%23000' points='50 0 60 40 100 50 60 60 50 100 40 60 0 50 40 40'/%3E%3C/g%3E%3C/svg%3E"),
-                linear-gradient(to bottom, #faf8f3, #f5f0e6);
+        /* Old paper background */
+        .paper-bg {
+            background: 
+                radial-gradient(ellipse at top left, rgba(245, 222, 179, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom right, rgba(210, 180, 140, 0.2) 0%, transparent 50%),
+                linear-gradient(135deg, #faf6ed 0%, #f5e6d3 50%, #f0dfc7 100%);
         }
         
-        .dark .paper-texture {
-            background-image: 
-                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-opacity='0.03'%3E%3Cpolygon fill='%23fff' points='50 0 60 40 100 50 60 60 50 100 40 60 0 50 40 40'/%3E%3C/g%3E%3C/svg%3E"),
-                linear-gradient(to bottom, #1a1a1a, #2d2d2d);
+        .dark .paper-bg {
+            background: 
+                radial-gradient(ellipse at top left, rgba(139, 69, 19, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom right, rgba(160, 82, 45, 0.3) 0%, transparent 50%),
+                linear-gradient(135deg, #2a241e 0%, #3d342a 50%, #4a3f32 100%);
         }
         
-        /* Custom animations */
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(-2deg); }
-            50% { transform: translateY(-20px) rotate(2deg); }
+        /* Vintage stains and marks */
+        .stain-1 {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(139, 69, 19, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(20px);
         }
         
-        @keyframes sway {
-            0%, 100% { transform: rotate(-5deg); }
-            50% { transform: rotate(5deg); }
+        .stain-2 {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(160, 82, 45, 0.04) 0%, transparent 70%);
+            border-radius: 40% 60% 70% 30%;
+            filter: blur(15px);
         }
         
-        @keyframes fadeInUp {
+        /* Wood frame effect */
+        .wood-frame {
+            border: 15px solid transparent;
+            border-image: repeating-linear-gradient(
+                45deg,
+                #8b4513,
+                #8b4513 10px,
+                #a0522d 10px,
+                #a0522d 20px
+            ) 15;
+            box-shadow: 
+                inset 0 0 20px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        
+        .wood-frame::before {
+            content: '';
+            position: absolute;
+            inset: -15px;
+            background: linear-gradient(45deg, #6b4423 0%, #8b5a3c 50%, #6b4423 100%);
+            z-index: -1;
+        }
+        
+        /* Rope decoration */
+        .rope {
+            position: absolute;
+            width: 100%;
+            height: 20px;
+            background: repeating-linear-gradient(
+                90deg,
+                #d4a574,
+                #d4a574 5px,
+                #c19660 5px,
+                #c19660 10px
+            );
+            border-radius: 10px;
+            box-shadow: 
+                inset 0 2px 4px rgba(0, 0, 0, 0.3),
+                0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Vintage photo effects */
+        .vintage-photo {
+            position: relative;
+            filter: sepia(0.3) contrast(1.1) brightness(0.95);
+            border: 8px solid #fff;
+            box-shadow: 
+                0 0 0 1px rgba(0, 0, 0, 0.1),
+                0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .vintage-photo::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%),
+                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        /* Hanging sign effect */
+        .hanging-sign {
+            position: relative;
+            background: linear-gradient(135deg, #d4a574 0%, #c19660 100%);
+            border: 3px solid #8b4513;
+            border-radius: 5px;
+            box-shadow: 
+                inset 0 2px 4px rgba(255, 255, 255, 0.3),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+                0 4px 8px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            transform-origin: top center;
+            animation: gentle-swing 4s ease-in-out infinite;
+        }
+        
+        .hanging-sign::before,
+        .hanging-sign::after {
+            content: '';
+            position: absolute;
+            top: -30px;
+            width: 2px;
+            height: 30px;
+            background: #8b4513;
+            box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hanging-sign::before {
+            left: 20%;
+        }
+        
+        .hanging-sign::after {
+            right: 20%;
+        }
+        
+        /* Straw/hay decoration */
+        .straw {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M10 50 Q25 30 40 50 T70 50 T100 50' stroke='%23d4a574' stroke-width='2' fill='none' opacity='0.6'/%3E%3Cpath d='M0 60 Q15 40 30 60 T60 60 T90 60' stroke='%23c19660' stroke-width='2' fill='none' opacity='0.5'/%3E%3Cpath d='M5 70 Q20 50 35 70 T65 70 T95 70' stroke='%23b8885f' stroke-width='2' fill='none' opacity='0.4'/%3E%3C/svg%3E") no-repeat center/contain;
+            transform: rotate(var(--rotation, 0deg));
+        }
+        
+        /* Vintage badge */
+        .vintage-badge {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 50px;
+            border: 3px double white;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            font-weight: bold;
+            transform: rotate(-10deg);
+            position: relative;
+        }
+        
+        .vintage-badge::before,
+        .vintage-badge::after {
+            content: '★';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+        }
+        
+        .vintage-badge::before {
+            left: 5px;
+        }
+        
+        .vintage-badge::after {
+            right: 5px;
+        }
+        
+        /* Animations */
+        @keyframes gentle-swing {
+            0%, 100% { transform: rotate(-2deg); }
+            50% { transform: rotate(2deg); }
+        }
+        
+        @keyframes float-slow {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+        
+        @keyframes sway-leaves {
+            0%, 100% { transform: rotate(-10deg) translateX(0); }
+            25% { transform: rotate(5deg) translateX(5px); }
+            75% { transform: rotate(-5deg) translateX(-5px); }
+        }
+        
+        @keyframes fade-in-scale {
             from { 
                 opacity: 0;
-                transform: translateY(30px);
+                transform: scale(0.8) rotate(-5deg);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: scale(1) rotate(0deg);
             }
         }
         
-        @keyframes parallax-slow {
-            from { transform: translateY(0); }
-            to { transform: translateY(-50px); }
-        }
-        
-        @keyframes parallax-medium {
-            from { transform: translateY(0); }
-            to { transform: translateY(-100px); }
-        }
-        
-        @keyframes parallax-fast {
-            from { transform: translateY(0); }
-            to { transform: translateY(-150px); }
-        }
-        
-        .animate-float {
-            animation: float 4s ease-in-out infinite;
-        }
-        
-        .animate-sway {
-            animation: sway 3s ease-in-out infinite;
-        }
-        
-        .animate-fade-in-up {
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-        
-        /* Vintage card style */
-        .vintage-card {
-            background: #fefdfb;
-            border: 2px solid #d4c4b0;
-            box-shadow: 
-                0 0 0 1px #e8dfd6,
-                3px 3px 0 0 #d4c4b0,
-                3px 3px 0 1px #e8dfd6,
-                6px 6px 0 0 #c7b299,
-                6px 6px 0 1px #e8dfd6,
-                9px 9px 15px rgba(0, 0, 0, 0.2);
+        /* Torn paper edge */
+        .torn-edge {
             position: relative;
         }
         
-        .dark .vintage-card {
-            background: #2a2a2a;
-            border: 2px solid #4a4a4a;
-            box-shadow: 
-                0 0 0 1px #3a3a3a,
-                3px 3px 0 0 #4a4a4a,
-                3px 3px 0 1px #3a3a3a,
-                6px 6px 0 0 #5a5a5a,
-                6px 6px 0 1px #3a3a3a,
-                9px 9px 15px rgba(0, 0, 0, 0.5);
-        }
-        
-        /* Decorative elements */
-        .decoration {
+        .torn-edge::after {
+            content: '';
             position: absolute;
-            pointer-events: none;
-            z-index: 10;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 10'%3E%3Cpath d='M0 10 Q5 5 10 10 T20 10 T30 10 T40 10 T50 10 T60 10 T70 10 T80 10 T90 10 T100 10' fill='white'/%3E%3C/svg%3E") repeat-x bottom/100px 20px;
         }
         
-        .leaf-1 {
-            width: 80px;
-            height: 80px;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 10 Q30 40 50 90 Q70 40 50 10' fill='%2366a666' opacity='0.7'/%3E%3C/svg%3E") no-repeat center/contain;
-        }
-        
-        .leaf-2 {
-            width: 60px;
-            height: 60px;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 10 Q30 40 50 90 Q70 40 50 10' fill='%238db68d' opacity='0.6'/%3E%3C/svg%3E") no-repeat center/contain;
-        }
-        
-        .flower {
-            width: 70px;
-            height: 70px;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='30' r='15' fill='%23ff6b6b' opacity='0.7'/%3E%3Ccircle cx='30' cy='50' r='15' fill='%23ff6b6b' opacity='0.7'/%3E%3Ccircle cx='70' cy='50' r='15' fill='%23ff6b6b' opacity='0.7'/%3E%3Ccircle cx='50' cy='70' r='15' fill='%23ff6b6b' opacity='0.7'/%3E%3Ccircle cx='50' cy='50' r='20' fill='%23ffe66d'/%3E%3C/svg%3E") no-repeat center/contain;
-        }
-        
-        /* Vintage button style */
-        .vintage-button {
-            background: linear-gradient(135deg, #8b7355, #a0866a);
-            color: white;
-            border: 2px solid #6b5a46;
-            box-shadow: 
-                inset 0 1px 0 rgba(255, 255, 255, 0.3),
-                0 3px 0 #6b5a46,
-                0 4px 6px rgba(0, 0, 0, 0.3);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-            position: relative;
-            transition: all 0.1s ease;
-        }
-        
-        .vintage-button:hover {
-            transform: translateY(1px);
-            box-shadow: 
-                inset 0 1px 0 rgba(255, 255, 255, 0.3),
-                0 2px 0 #6b5a46,
-                0 3px 4px rgba(0, 0, 0, 0.3);
-        }
-        
-        .vintage-button:active {
-            transform: translateY(3px);
-            box-shadow: 
-                inset 0 1px 0 rgba(255, 255, 255, 0.3),
-                0 0 0 #6b5a46,
-                0 1px 2px rgba(0, 0, 0, 0.3);
-        }
-        
-        /* Parallax layers */
-        .parallax-container {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .parallax-layer {
-            position: absolute;
-            width: 100%;
-            height: 100%;
+        /* Handwritten style */
+        .handwritten {
+            font-family: 'Charm', cursive;
+            color: #4a3c28;
+            transform: rotate(-2deg);
         }
         
         /* Custom scrollbar vintage style */
         ::-webkit-scrollbar {
-            width: 12px;
+            width: 16px;
         }
         
         ::-webkit-scrollbar-track {
-            background: #f5f0e6;
-            border: 1px solid #d4c4b0;
-        }
-        
-        .dark ::-webkit-scrollbar-track {
-            background: #2a2a2a;
-            border: 1px solid #4a4a4a;
+            background: linear-gradient(90deg, #d4a574 0%, #c19660 50%, #d4a574 100%);
+            border: 1px solid #8b4513;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
         }
         
         ::-webkit-scrollbar-thumb {
-            background: #a0866a;
-            border-radius: 6px;
-            border: 1px solid #8b7355;
+            background: linear-gradient(90deg, #8b4513 0%, #a0522d 50%, #8b4513 100%);
+            border-radius: 8px;
+            border: 1px solid #6b4423;
+            box-shadow: 
+                inset 0 0 3px rgba(255, 255, 255, 0.2),
+                0 0 3px rgba(0, 0, 0, 0.3);
         }
         
-        ::-webkit-scrollbar-thumb:hover {
-            background: #8b7355;
+        /* Flower decoration */
+        .flower-deco {
+            width: 50px;
+            height: 50px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='35' r='12' fill='%23ff6b6b' opacity='0.8'/%3E%3Ccircle cx='35' cy='50' r='12' fill='%23ff8787' opacity='0.8'/%3E%3Ccircle cx='65' cy='50' r='12' fill='%23ff8787' opacity='0.8'/%3E%3Ccircle cx='50' cy='65' r='12' fill='%23ff6b6b' opacity='0.8'/%3E%3Ccircle cx='50' cy='50' r='15' fill='%23ffe66d'/%3E%3C/svg%3E") no-repeat center/contain;
         }
         
-        /* Polaroid style for images */
-        .polaroid {
-            background: white;
-            padding: 10px 10px 40px 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            transform: rotate(-2deg);
-            transition: transform 0.3s ease;
-        }
-        
-        .polaroid:hover {
-            transform: rotate(0deg) scale(1.05);
-        }
-        
-        .dark .polaroid {
-            background: #3a3a3a;
-        }
-        
-        /* Stamp effect */
-        .stamp {
-            position: relative;
-            display: inline-block;
-            padding: 10px 20px;
-            background: #ff6b6b;
-            color: white;
-            font-weight: bold;
-            transform: rotate(-15deg);
-            border: 3px dashed white;
-            box-shadow: 0 0 0 3px #ff6b6b;
+        /* Leaf patterns */
+        .leaf-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 10 Q20 25 30 50 Q40 25 30 10' fill='%2366a666' opacity='0.1'/%3E%3C/svg%3E");
+            background-size: 60px 60px;
+            opacity: 0.5;
         }
     </style>
 </head>
-<body class="paper-texture min-h-screen transition-all duration-500">
+<body class="paper-bg min-h-screen transition-all duration-500 relative overflow-x-hidden">
     
-    <!-- Decorative elements -->
-    <div class="decoration leaf-1 animate-sway" style="top: 10%; left: 5%;"></div>
-    <div class="decoration leaf-2 animate-float" style="top: 20%; right: 10%;"></div>
-    <div class="decoration flower animate-sway" style="bottom: 20%; left: 8%;"></div>
-    <div class="decoration leaf-1 animate-float" style="bottom: 10%; right: 5%;"></div>
+    <!-- Vintage stains -->
+    <div class="stain-1" style="top: 20%; left: 10%;"></div>
+    <div class="stain-2" style="bottom: 30%; right: 15%;"></div>
+    <div class="stain-1" style="top: 60%; right: 20%;"></div>
+    
+    <!-- Straw decorations -->
+    <div class="straw" style="top: 10%; left: 5%; --rotation: 45deg;"></div>
+    <div class="straw" style="top: 30%; right: 8%; --rotation: -30deg;"></div>
+    <div class="straw" style="bottom: 25%; left: 10%; --rotation: 60deg;"></div>
+    <div class="straw" style="bottom: 15%; right: 12%; --rotation: -45deg;"></div>
+    
+    <!-- Flower decorations -->
+    <div class="flower-deco absolute animate-sway-leaves" style="top: 15%; right: 5%;"></div>
+    <div class="flower-deco absolute animate-float-slow" style="bottom: 20%; left: 3%;"></div>
     
     <!-- Dark Mode Toggle -->
-    <button id="darkModeToggle" class="fixed top-4 right-4 z-40 p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:scale-110 transition-transform duration-300 border-2 border-gray-300 dark:border-gray-600">
-        <i class="fas fa-moon text-gray-800 dark:text-yellow-300 text-xl"></i>
+    <button id="darkModeToggle" class="fixed top-4 right-4 z-50 w-12 h-12 rounded-full bg-amber-100 dark:bg-amber-900 shadow-lg hover:scale-110 transition-transform duration-300 border-2 border-amber-600 dark:border-amber-400 flex items-center justify-center">
+        <i class="fas fa-moon text-amber-800 dark:text-amber-200 text-xl"></i>
     </button>
     
     <!-- Main Container -->
     <div class="container mx-auto px-4 py-8 max-w-6xl relative z-20">
         
-        <!-- Header Section with Vintage Style -->
-        <header class="text-center mb-12 animate-fade-in-up">
-            <div class="inline-block relative">
-                <div class="stamp absolute -top-8 -right-8 text-sm z-10">NEW!</div>
-                <h1 class="text-5xl md:text-7xl font-bold text-amber-800 dark:text-amber-200 font-charm mb-2 drop-shadow-lg">
+        <!-- Rope decoration at top -->
+        <div class="rope -rotate-1 mb-8"></div>
+        
+        <!-- Header Section with Hanging Sign -->
+        <header class="text-center mb-16 relative">
+            <div class="hanging-sign max-w-2xl mx-auto text-white">
+                <h1 class="text-4xl md:text-5xl font-bold font-charm mb-2 drop-shadow-lg">
                     กิจกรรมประจำเดือน
                 </h1>
-                <div class="flex items-center justify-center space-x-3 text-2xl md:text-3xl text-amber-700 dark:text-amber-300">
-                    <span class="text-4xl">✿</span>
+                <div class="flex items-center justify-center space-x-3 text-xl md:text-2xl">
+                    <span>✦</span>
                     <span class="font-medium">สิงหาคม 2568</span>
-                    <span class="text-4xl">✿</span>
+                    <span>✦</span>
                 </div>
             </div>
         </header>
         
-        <!-- Main Content Card with Vintage Style -->
-        <div class="vintage-card rounded-2xl p-6 md:p-10 mb-8 animate-fade-in-up relative" style="animation-delay: 0.2s;">
+        <!-- Main Content Area -->
+        <div class="relative">
+            <!-- Background leaf pattern -->
+            <div class="leaf-pattern absolute inset-0 pointer-events-none"></div>
             
-            <!-- Corner decorations -->
-            <div class="absolute top-4 left-4 text-3xl text-amber-600 opacity-50">❦</div>
-            <div class="absolute top-4 right-4 text-3xl text-amber-600 opacity-50">❦</div>
-            <div class="absolute bottom-4 left-4 text-3xl text-amber-600 opacity-50 rotate-180">❦</div>
-            <div class="absolute bottom-4 right-4 text-3xl text-amber-600 opacity-50 rotate-180">❦</div>
-            
-            <!-- Image Section with Polaroid Effect -->
-            <div class="mb-10 flex justify-center">
-                <div class="polaroid max-w-3xl">
-                    <img src="https://lh5.googleusercontent.com/d/1WioI5iu7ifhvoUX7N3ZSTXGzRFzSDjke" 
-                         alt="กิจกรรมศูนย์ฯ" 
-                         class="w-full h-auto object-cover"
-                         loading="lazy">
-                    <p class="text-center mt-4 font-charm text-gray-600 dark:text-gray-400">Summer Activities 2025 ☀️</p>
-                </div>
-            </div>
-            
-            <!-- Welcome Message -->
-            <div class="text-center mb-10 relative">
-                <div class="inline-block bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-gray-800 dark:to-gray-700 p-6 rounded-2xl border-2 border-dashed border-amber-300 dark:border-amber-600">
-                    <h2 class="text-3xl md:text-4xl font-bold text-amber-800 dark:text-amber-200 mb-4 font-charm">
-                        🌻 มาร่วมสนุกกับเรา! 🌻
+            <!-- Photo Gallery Section -->
+            <div class="mb-16 relative">
+                <div class="text-center mb-8">
+                    <h2 class="handwritten text-4xl text-amber-800 dark:text-amber-200">
+                        ~ ภาพกิจกรรมของเรา ~
                     </h2>
-                    <p class="text-lg md:text-xl text-amber-700 dark:text-amber-300 leading-relaxed">
-                        ศูนย์เยาวชนกรุงเทพมหานคร (ไทย - ญี่ปุ่น)
-                        <br class="hidden md:block">
-                        ขอเชิญชวนทุกท่านมาร่วมกิจกรรมสุดพิเศษ
-                        <br class="hidden md:block">
-                        ในเดือนสิงหาคม 2568 นี้
-                    </p>
+                </div>
+                
+                <!-- Main photo with wood frame -->
+                <div class="max-w-4xl mx-auto">
+                    <div class="wood-frame p-4 bg-white dark:bg-gray-800 transform rotate-1 hover:rotate-0 transition-transform duration-500">
+                        <img src="https://lh5.googleusercontent.com/d/1WioI5iu7ifhvoUX7N3ZSTXGzRFzSDjke" 
+                             alt="กิจกรรมศูนย์ฯ" 
+                             class="vintage-photo w-full h-auto"
+                             loading="lazy">
+                        <p class="text-center mt-4 handwritten text-2xl">
+                            "ความสุขที่แท้จริงคือการได้ทำกิจกรรมร่วมกัน"
+                        </p>
+                    </div>
                 </div>
             </div>
             
-            <!-- Activities Grid with Vintage Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                <!-- Activity Card 1 -->
-                <div class="bg-gradient-to-br from-green-100 to-green-200 dark:from-green-800 dark:to-green-900 rounded-xl p-6 border-2 border-green-300 dark:border-green-600 transform hover:scale-105 transition-all duration-300 cursor-pointer relative overflow-hidden">
-                    <div class="absolute -top-2 -right-2 text-6xl text-green-300 dark:text-green-700 opacity-30">🌿</div>
-                    <i class="fas fa-users text-4xl mb-4 text-green-700 dark:text-green-300"></i>
-                    <h3 class="text-xl font-semibold mb-2 text-green-800 dark:text-green-200">กิจกรรมกลุ่ม</h3>
-                    <p class="text-green-700 dark:text-green-300">สร้างความสามัคคีและมิตรภาพ</p>
+            <!-- Activities Section with Torn Paper -->
+            <div class="torn-edge bg-white dark:bg-gray-800 p-8 rounded-t-2xl shadow-2xl mb-16">
+                <div class="text-center mb-10">
+                    <div class="vintage-badge text-lg mb-4">
+                        กิจกรรมพิเศษ
+                    </div>
+                    <h3 class="text-3xl font-bold text-amber-800 dark:text-amber-200 font-charm">
+                        มาร่วมสนุกกับกิจกรรมของเรา
+                    </h3>
                 </div>
                 
-                <!-- Activity Card 2 -->
-                <div class="bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900 rounded-xl p-6 border-2 border-blue-300 dark:border-blue-600 transform hover:scale-105 transition-all duration-300 cursor-pointer relative overflow-hidden">
-                    <div class="absolute -top-2 -right-2 text-6xl text-blue-300 dark:text-blue-700 opacity-30">📚</div>
-                    <i class="fas fa-book text-4xl mb-4 text-blue-700 dark:text-blue-300"></i>
-                    <h3 class="text-xl font-semibold mb-2 text-blue-800 dark:text-blue-200">การเรียนรู้</h3>
-                    <p class="text-blue-700 dark:text-blue-300">พัฒนาทักษะและความรู้ใหม่ๆ</p>
+                <!-- Activity Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Activity 1 -->
+                    <div class="relative group">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-green-400 to-green-600 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-500"></div>
+                        <div class="relative bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900 dark:to-green-800 p-6 rounded-lg border-3 border-green-600 transform -rotate-2 hover:rotate-0 transition-all duration-300">
+                            <div class="text-center">
+                                <div class="text-5xl mb-4">👥</div>
+                                <h4 class="text-xl font-bold text-green-800 dark:text-green-200 mb-2">กิจกรรมกลุ่ม</h4>
+                                <p class="text-green-700 dark:text-green-300">สร้างความสามัคคีและมิตรภาพ</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Activity 2 -->
+                    <div class="relative group">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-500"></div>
+                        <div class="relative bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 p-6 rounded-lg border-3 border-blue-600 transform rotate-2 hover:rotate-0 transition-all duration-300">
+                            <div class="text-center">
+                                <div class="text-5xl mb-4">📚</div>
+                                <h4 class="text-xl font-bold text-blue-800 dark:text-blue-200 mb-2">การเรียนรู้</h4>
+                                <p class="text-blue-700 dark:text-blue-300">พัฒนาทักษะและความรู้ใหม่ๆ</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Activity 3 - Changed from volunteer to Thai dance/craft -->
+                    <div class="relative group">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-purple-400 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-500"></div>
+                        <div class="relative bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900 dark:to-purple-800 p-6 rounded-lg border-3 border-purple-600 transform -rotate-2 hover:rotate-0 transition-all duration-300">
+                            <div class="text-center">
+                                <div class="text-5xl mb-4">🎭</div>
+                                <h4 class="text-xl font-bold text-purple-800 dark:text-purple-200 mb-2">นาฏศิลป์ไทย</h4>
+                                <p class="text-purple-700 dark:text-purple-300">อนุรักษ์ศิลปวัฒนธรรมไทย</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
-                <!-- Activity Card 3 -->
-                <div class="bg-gradient-to-br from-pink-100 to-pink-200 dark:from-pink-800 dark:to-pink-900 rounded-xl p-6 border-2 border-pink-300 dark:border-pink-600 transform hover:scale-105 transition-all duration-300 cursor-pointer relative overflow-hidden">
-                    <div class="absolute -top-2 -right-2 text-6xl text-pink-300 dark:text-pink-700 opacity-30">💝</div>
-                    <i class="fas fa-heart text-4xl mb-4 text-pink-700 dark:text-pink-300"></i>
-                    <h3 class="text-xl font-semibold mb-2 text-pink-800 dark:text-pink-200">จิตอาสา</h3>
-                    <p class="text-pink-700 dark:text-pink-300">ร่วมทำความดีเพื่อสังคม</p>
+                <!-- Additional Activities -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+                    <!-- Handicraft Activity -->
+                    <div class="relative group">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-orange-400 to-orange-600 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-500"></div>
+                        <div class="relative bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900 dark:to-orange-800 p-6 rounded-lg border-3 border-orange-600 transform rotate-1 hover:rotate-0 transition-all duration-300">
+                            <div class="text-center">
+                                <div class="text-5xl mb-4">🎨</div>
+                                <h4 class="text-xl font-bold text-orange-800 dark:text-orange-200 mb-2">หัตถกรรมไทย</h4>
+                                <p class="text-orange-700 dark:text-orange-300">สร้างสรรค์งานฝีมือแบบไทย</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Special Workshop -->
+                    <div class="relative group">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-pink-400 to-pink-600 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-500"></div>
+                        <div class="relative bg-gradient-to-br from-pink-50 to-pink-100 dark:from-pink-900 dark:to-pink-800 p-6 rounded-lg border-3 border-pink-600 transform -rotate-1 hover:rotate-0 transition-all duration-300">
+                            <div class="text-center">
+                                <div class="text-5xl mb-4">🌸</div>
+                                <h4 class="text-xl font-bold text-pink-800 dark:text-pink-200 mb-2">Workshop พิเศษ</h4>
+                                <p class="text-pink-700 dark:text-pink-300">กิจกรรมเสริมทักษะ</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <!-- CTA Section -->
-            <div class="text-center space-y-6">
-                <button class="vintage-button px-10 py-4 rounded-full text-lg font-semibold inline-flex items-center space-x-2">
-                    <i class="fas fa-hand-point-right"></i>
-                    <span>ลงทะเบียนเข้าร่วมกิจกรรม</span>
-                </button>
-                
-                <div class="mt-8">
-                    <p class="text-amber-700 dark:text-amber-300 mb-4 font-medium">ติดตามข่าวสารเพิ่มเติม</p>
-                    <a href="https://www.facebook.com/photo?fbid=1187348180103044&set=a.468244395346763" 
-                       target="_blank"
-                       class="inline-flex items-center px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
-                        <i class="fab fa-facebook-f mr-2 text-xl"></i>
-                        <span class="font-medium">Facebook ศูนย์เยาวชนฯ</span>
-                    </a>
+            <!-- Contact Section with Vintage Postcard Style -->
+            <div class="max-w-3xl mx-auto mb-16">
+                <div class="bg-gradient-to-br from-amber-50 to-amber-100 dark:from-amber-900 dark:to-amber-800 p-8 rounded-lg shadow-xl transform -rotate-1 hover:rotate-0 transition-transform duration-300 border-4 border-double border-amber-600">
+                    <div class="text-center">
+                        <h3 class="text-2xl font-bold text-amber-800 dark:text-amber-200 mb-4 font-charm">
+                            ✉ ติดต่อสอบถาม ✉
+                        </h3>
+                        <p class="text-amber-700 dark:text-amber-300 mb-6">
+                            สนใจเข้าร่วมกิจกรรม ติดตามข่าวสารได้ที่
+                        </p>
+                        <a href="https://www.facebook.com/photo?fbid=1187348180103044&set=a.468244395346763" 
+                           target="_blank"
+                           class="inline-flex items-center px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                            <i class="fab fa-facebook-f mr-2 text-xl"></i>
+                            <span class="font-medium">Facebook ศูนย์เยาวชนฯ</span>
+                        </a>
+                        
+                        <!-- Postage stamp decoration -->
+                        <div class="absolute -top-4 -right-4 bg-red-600 text-white p-4 rounded transform rotate-12 border-2 border-dashed border-white">
+                            <div class="text-xs font-bold">THAILAND</div>
+                            <div class="text-lg font-bold">2568</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         
-        <!-- Footer -->
-        <footer class="text-center text-amber-700 dark:text-amber-300 mt-12 pb-8">
-            <div class="inline-block bg-white dark:bg-gray-800 bg-opacity-50 dark:bg-opacity-50 px-6 py-3 rounded-lg">
-                <p class="mb-2 text-sm">© 2568 ศูนย์เยาวชนกรุงเทพมหานคร(ไทย - ญี่ปุ่น)</p>
-                <p class="text-xs">สำนักวัฒนธรรม กีฬา และการท่องเที่ยว</p>
+        <!-- Footer with vintage style -->
+        <footer class="text-center mt-20 pb-8">
+            <div class="inline-block relative">
+                <div class="bg-amber-100 dark:bg-amber-900 px-8 py-4 rounded-lg shadow-lg border-2 border-amber-600 dark:border-amber-400">
+                    <p class="text-sm text-amber-800 dark:text-amber-200 mb-1">
+                        © 2568 ศูนย์เยาวชนกรุงเทพมหานคร(ไทย - ญี่ปุ่น)
+                    </p>
+                    <p class="text-xs text-amber-700 dark:text-amber-300">
+                        สำนักวัฒนธรรม กีฬา และการท่องเที่ยว
+                    </p>
+                </div>
+                <!-- Corner decorations -->
+                <span class="absolute -top-2 -left-2 text-2xl text-amber-600">❋</span>
+                <span class="absolute -top-2 -right-2 text-2xl text-amber-600">❋</span>
+                <span class="absolute -bottom-2 -left-2 text-2xl text-amber-600">❋</span>
+                <span class="absolute -bottom-2 -right-2 text-2xl text-amber-600">❋</span>
             </div>
         </footer>
     </div>
-    
-    <!-- Floating decorative elements -->
-    <div class="fixed bottom-20 right-10 text-6xl opacity-20 animate-float pointer-events-none">🍃</div>
-    <div class="fixed top-1/2 left-10 text-5xl opacity-20 animate-sway pointer-events-none">🌸</div>
     
     <script>
         // Dark mode toggle
@@ -401,76 +519,66 @@
             }
         });
         
-        // Parallax effect on scroll
-        let ticking = false;
-        function updateParallax() {
+        // Parallax effect for decorations
+        window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
-            const decorations = document.querySelectorAll('.decoration');
+            const straws = document.querySelectorAll('.straw');
+            const flowers = document.querySelectorAll('.flower-deco');
             
-            decorations.forEach((el, index) => {
-                const speed = 0.5 + (index * 0.1);
-                el.style.transform = `translateY(${scrolled * speed}px)`;
+            straws.forEach((straw, index) => {
+                const speed = 0.3 + (index * 0.1);
+                straw.style.transform = `translateY(${scrolled * speed}px) rotate(${straw.style.getPropertyValue('--rotation')})`;
             });
             
-            ticking = false;
-        }
-        
-        function requestTick() {
-            if (!ticking) {
-                window.requestAnimationFrame(updateParallax);
-                ticking = true;
-            }
-        }
-        
-        window.addEventListener('scroll', requestTick);
-        
-        // Add vintage typing effect to header
-        const headerText = document.querySelector('h1');
-        if (headerText) {
-            const text = headerText.textContent;
-            headerText.textContent = '';
-            let i = 0;
-            
-            function typeWriter() {
-                if (i < text.length) {
-                    headerText.textContent += text.charAt(i);
-                    i++;
-                    setTimeout(typeWriter, 100);
-                }
-            }
-            
-            setTimeout(typeWriter, 500);
-        }
-        
-        // Random floating animation for decorative elements
-        const floatingElements = document.querySelectorAll('.decoration');
-        floatingElements.forEach((el, index) => {
-            el.style.animationDelay = `${index * 0.5}s`;
-            el.style.animationDuration = `${3 + Math.random() * 2}s`;
+            flowers.forEach((flower, index) => {
+                const speed = 0.2 + (index * 0.15);
+                flower.style.transform = `translateY(${scrolled * -speed}px)`;
+            });
         });
         
-        // Activity cards entrance animation
-        const activityCards = document.querySelectorAll('.grid > div');
+        // Fade in animation for activity cards
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+        
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry, index) => {
+            entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.style.opacity = '0';
-                        entry.target.style.transform = 'translateY(20px) rotate(-5deg)';
-                        setTimeout(() => {
-                            entry.target.style.transition = 'all 0.6s ease-out';
-                            entry.target.style.opacity = '1';
-                            entry.target.style.transform = 'translateY(0) rotate(0deg)';
-                        }, 100);
-                    }, index * 150);
+                    entry.target.style.animation = 'fade-in-scale 0.8s ease-out forwards';
                     observer.unobserve(entry.target);
                 }
             });
-        });
+        }, observerOptions);
         
-        activityCards.forEach(card => {
+        document.querySelectorAll('.grid > div').forEach(card => {
+            card.style.opacity = '0';
             observer.observe(card);
         });
+        
+        // Random rotation for straw elements
+        document.querySelectorAll('.straw').forEach(straw => {
+            const randomRotation = Math.random() * 360;
+            straw.style.setProperty('--rotation', `${randomRotation}deg`);
+        });
+        
+        // Add gentle movement to hanging sign
+        const hangingSign = document.querySelector('.hanging-sign');
+        if (hangingSign) {
+            let mouseX = 0;
+            let currentX = 0;
+            
+            document.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX / window.innerWidth - 0.5) * 10;
+            });
+            
+            function updateSwing() {
+                currentX += (mouseX - currentX) * 0.1;
+                hangingSign.style.transform = `rotateZ(${currentX}deg)`;
+                requestAnimationFrame(updateSwing);
+            }
+            updateSwing();
+        }
     </script>
 </body>
 </html>
